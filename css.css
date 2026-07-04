@@ -1,0 +1,112 @@
+body {
+    min-height: 100vh;
+    margin: 0;
+
+    background: linear-gradient(135deg, #141414, #2c2c2c, #4a4a4a);
+
+
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+    justify-content: flex-start; 
+
+    padding: 60px 20px; 
+    box-sizing: border-box; 
+
+    font-family: 'Courier New', Courier, monospace; 
+}
+
+
+.content-container {
+    max-width: 800px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 40px;
+    border-radius: 16px;
+    backdrop-filter: blur(10px); 
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+    text-align: center;
+}
+
+
+.title {
+    font-size: 55px;
+    margin-top: 0;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3); 
+}
+
+
+.ptitle {
+    color: #e0e0e0; 
+    font-size: 18px;
+    line-height: 1.6; 
+    margin: 15px 0;
+    font-weight: normal; 
+}
+
+.win {
+    color: #5d9cec; 
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+
+.highlight {
+    color: #ffce54; 
+    font-weight: bold;
+    margin-top: 40px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.2);
+    padding-top: 20px;
+}
+
+.r {
+    color: #fff;
+    background: gray;
+}
+
+.titleD {
+    font-size: 30px;
+    margin-top: 0;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3); 
+}
+
+img {
+    max-width: 250px;
+    height: auto; 
+}
+
+.m {
+    background: gray;
+    display: inline-block;
+    border-radius: 10px;
+}
+
+.mm {
+    display: inline-block;
+}
+
+.button_D {
+    background: linear-gradient(135deg, #141414, #2c2c2c, #4a4a4a);
+    color: #fff;
+
+    padding: 10px;
+}
+
+.button_M {
+  position: relative; 
+  display: inline-block;
+}
+
+.button_MM {
+  position: absolute;
+  bottom: 20px;     
+  left: 50%;         
+  transform: translateX(-50%); 
+}

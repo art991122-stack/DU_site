@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DeltaUnlocker</title>
+</head>
+<body>
+
+    <main id="home" class="content-container">
+        <h1 class="title">Delta Unlocker</h1>
+        <p class="ptitle">Программа для очистки ОС Windows от вредоносного ПО.</p>
+        <p class="ptitle">Позволяет обойти любой вирус, который был создан <span class="win">на ПК для Windows.</span></p>
+        <p class="ptitle">Delta Unlocker by DK&EM</p>
+        <a href="#download" class="ptitle r"><button class="button_D">Download</button></a>
+        <p class="ptitle highlight">Мы создавали его с нуля, так что будем рады любой сумме вознаграждения :D</p>
+    </main>
+
+    <section id="download" class="content-container" style="display: none;">
+        <h1 class="titleD">Выберете сайт для установки</h1>
+        <p class="ptitle"></p>
+        <div class="m">
+            <a href="https://github.com/art991122-stack/DU_I/releases/download/untagged-48619b62cb1cf615df08/1_1.rar">
+                <img src="./imges/github_PNG.png" />
+            </a>
+        </div>
+        <div class="mm">
+            <a href="https://drive.usercontent.google.com/download?id=1HfZXKtosv8ReQ5RcfIkC78p9Wz-g6c6x&export=download&authuser=0&confirm=t&uuid=9d75d95b-f49b-4a08-b394-1c6295fca484&at=ABswASarFDWXoOPj2QWbBZ5bijY1:1783173338309">
+                <img src="./imges/google_drive.png" />
+            </a>
+        </div>
+        <div class="m">
+            <a href="https://www.dropbox.com/scl/fi/1b60mi6mofvmijun6k5pv/1_1.rar?rlkey=wrp0mqd1bsf6hb4lqyyw2ze0d&st=i7y2ihmq&e=1&dl=1">
+                <img src="./imges/Dropbox_png.png" />
+            </a>
+        </div>
+        <div class="button_M">
+            <a class="buttom_MM" href=""><button class="button_D">Back</button></a>
+        </div>
+    </section>
+    <script>
+        function checkRoute() {
+            const home = document.getElementById('home');
+            const download = document.getElementById('download');
+
+            if (window.location.hash === '#download') {
+                home.style.display = 'none';
+                download.style.display = 'block';
+            } else {
+                home.style.display = 'block';
+                download.style.display = 'none';
+            }
+        }
+
+        window.addEventListener('hashchange', checkRoute);
+        window.addEventListener('DOMContentLoaded', checkRoute);
+    </script>
+</body>
+</html>
+
+<!--
+https://www.dropbox.com/pri/get/1_1.rar?_download_id=1617060295631697097039575626150518841481120516529681721694481685&_log_download_success=1&_notify_domain=www.dropbox.com&_subject_uid=2296569027&w=AABhStYqMWHEwgjijLz_WGKtsHgRPhiaRVqoxxjGZPgghg
+-->
