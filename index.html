@@ -8,6 +8,7 @@
 </head>
 <body>
 
+    <!-- ГЛАВНАЯ СТРАНИЦА -->
     <main id="home" class="content-container">
         <h1 class="title">Delta Unlocker</h1>
         <p class="ptitle">Программа для очистки ОС Windows от вредоносного ПО.</p>
@@ -17,21 +18,24 @@
         <p class="ptitle highlight">Мы создавали его с нуля, так что будем рады любой сумме вознаграждения :D</p>
     </main>
 
+    <!-- СТРАНИЦА ВЫБОРА ЗАКРУЗКИ -->
     <section id="download" class="content-container" style="display: none;">
         <h1 class="titleD">Выберите сайт для установки</h1>
         <p class="ptitle"></p>
         <div class="m">
-            <a href="https://github.com/art991122-stack/DU_I/releases/download/untagged-48619b62cb1cf615df08/1_1.rar">
+            <!-- Заменили href на onclick для перехвата клика -->
+            <a href="javascript:void(0);" onclick="triggerDownload('https://github.com/art991122-stack/DU_I/releases/download/untagged-48619b62cb1cf615df08/1_1.rar')">
                 <img src="./imges/github_PNG.png" />
             </a>
         </div>
         <div class="mm">
-            <a href="https://drive.usercontent.google.com/download?id=1HfZXKtosv8ReQ5RcfIkC78p9Wz-g6c6x&export=download&authuser=0">
+            <a href="javascript:void(0);" onclick="triggerDownload('https://drive.usercontent.google.com/download?id=1HfZXKtosv8ReQ5RcfIkC78p9Wz-g6c6x&export=download&authuser=0')">
                 <img src="./imges/google_drive.png" />
             </a>
         </div>
         <div class="m">
-            <a href="https://www.dropbox.com/scl/fi/1b60mi6mofvmijun6k5pv/1_1.rar?rlkey=wrp0mqd1bsf6hb4lqyyw2ze0d&st=i7y2ihmq&e=1&dl=1">
+            <!-- Поставили прямую ссылку скачивания для Dropbox -->
+            <a href="javascript:void(0);" onclick="triggerDownload('https://www.dropbox.com/scl/fi/1b60mi6mofvmijun6k5pv/1_1.rar?rlkey=wrp0mqd1bsf6hb4lqyyw2ze0d&st=i7y2ihmq&e=1&dl=1')">
                 <img src="./imges/Dropbox_png.png" />
             </a>
         </div>
@@ -39,18 +43,58 @@
             <a class="buttom_MM" href=""><button class="button_D">Back</button></a>
         </div>
     </section>
+
+    <!-- СТРАНИЦА "СПАСИБО" -->
+    <section id="thankyou" class="content-container" style="display: none;">
+        <h1 class="titleD">Спасибо за скачивание!</h1>
+        <p class="ptitle">Загрузка Delta Unlocker начнется через пару секунд...</p>
+        <p class="ptitle" style="font-size: 14px; opacity: 0.7;">Если скачивание не началось автоматически, нажмите кнопку ниже:</p>
+        
+        <div class="button_M" style="margin-top: 20px;">
+            <a id="manual-download-btn" href="#" class="button_D" style="display: inline-block; text-decoration: none; line-height: 40px; text-align: center;">Скачать принудительно</a>
+        </div>
+        
+        <div class="button_M" style="margin-top: 40px;">
+            <a class="buttom_MM" href=""><button class="button_D">На главную</button></a>
+        </div>
+    </section>
+
     <script>
         function checkRoute() {
             const home = document.getElementById('home');
             const download = document.getElementById('download');
+            const thankyou = document.getElementById('thankyou');
+
+            // Скрываем абсолютно всё перед отрисовкой нужного роута
+            home.style.display = 'none';
+            download.style.display = 'none';
+            thankyou.style.display = 'none';
 
             if (window.location.hash === '#download') {
-                home.style.display = 'none';
                 download.style.display = 'block';
+            } else if (window.location.hash === '#thankyou') {
+                thankyou.style.display = 'block';
             } else {
                 home.style.display = 'block';
-                download.style.display = 'none';
             }
+        }
+
+        function triggerDownload(url) {
+            // Переключаем хэш страницы на #thankyou
+            window.location.hash = '#thankyou';
+            
+            // Настраиваем кнопку ручного скачивания, если автомат вдруг заблокируется браузером
+            document.getElementById('manual-download-btn').href = url;
+
+            // Запускаем таймер на 3 секунды (3000 мс)
+            setTimeout(() => {
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', '');
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }, 3000);
         }
 
         window.addEventListener('hashchange', checkRoute);
@@ -58,7 +102,3 @@
     </script>
 </body>
 </html>
-
-<!--
-https://www.dropbox.com/pri/get/1_1.rar?_download_id=1617060295631697097039575626150518841481120516529681721694481685&_log_download_success=1&_notify_domain=www.dropbox.com&_subject_uid=2296569027&w=AABhStYqMWHEwgjijLz_WGKtsHgRPhiaRVqoxxjGZPgghg
--->
