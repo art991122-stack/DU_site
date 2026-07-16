@@ -14,7 +14,10 @@
         <p class="ptitle">Программа для очистки ОС Windows от вредоносного ПО.</p>
         <p class="ptitle">Позволяет обойти любой вирус, который был создан <span class="win">на ПК для Windows.</span></p>
         <p class="ptitle">Delta Unlocker by DK&EM</p>
-        <a href="#download" class="ptitle r"><button class="button_D">Download</button></a>
+        
+        <!-- Изменили href на onclick, чтобы сначала открывалось соглашение -->
+        <a href="javascript:void(0);" onclick="openAgreementModal()" class="ptitle r"><button class="button_D">Download</button></a>
+        
         <p class="ptitle highlight">Мы создавали его с нуля, так что будем рады любой сумме вознаграждения :D</p>
     </main>
 
@@ -23,19 +26,17 @@
         <h1 class="titleD">Выберите сайт для установки</h1>
         <p class="ptitle"></p>
         <div class="m">
-            <!-- Заменили href на onclick для перехвата клика -->
-            <a href="javascript:void(0);" onclick="triggerDownload('https://github.com/art991122-stack/DU_I/releases/download/8.0.0/1_1.rar')">
+            <a href="javascript:void(0);" onclick="triggerDownload('https://github.com')">
                 <img src="./imges/github_PNG.png" />
             </a>
         </div>
         <div class="mm">
-            <a href="javascript:void(0);" onclick="triggerDownload('https://drive.usercontent.google.com/download?id=1HfZXKtosv8ReQ5RcfIkC78p9Wz-g6c6x&export=download&authuser=0')">
+            <a href="javascript:void(0);" onclick="triggerDownload('https://google.com')">
                 <img src="./imges/google_drive.png" />
             </a>
         </div>
         <div class="m">
-            <!-- Поставили прямую ссылку скачивания для Dropbox -->
-            <a href="javascript:void(0);" onclick="triggerDownload('https://www.dropbox.com/scl/fi/1b60mi6mofvmijun6k5pv/1_1.rar?rlkey=wrp0mqd1bsf6hb4lqyyw2ze0d&st=i7y2ihmq&e=1&dl=1')">
+            <a href="javascript:void(0);" onclick="triggerDownload('https://dropbox.com')">
                 <img src="./imges/Dropbox_png.png" />
             </a>
         </div>
@@ -44,6 +45,7 @@
         </div>
     </section>
 
+    <!-- СТРАНИЦА СПАСИБО -->
     <section id="thankyou" class="content-container" style="display: none;">
         <h1 class="titleD">Спасибо за установку!</h1>
         <p class="ptitle">Загрузка Delta Unlocker начнется через пару секунд...</p>
@@ -60,13 +62,41 @@
         </div>
     </section>
 
+    <!-- ПОП-АП: ПОЛЬЗОВАТЕЛЬСКОЕ СОГЛАШЕНИЕ (EULA) -->
+    <div id="agreementModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:9999; align-items:center; justify-content:center; backdrop-filter: blur(5px); font-family: 'Courier New', Courier, monospace;">
+        <div class="content-container" style="max-width:550px; width:90%; background: rgba(20, 20, 20, 0.98); text-align: left; box-sizing: border-box; border: 1px solid rgba(255, 255, 255, 0.1);">
+            
+            <h2 class="titleD" style="color:#ffce54; margin-bottom:15px; font-size: 22px;">⚠️ ВНИМАНИЕ! ОГРАНИЧЕНИЕ</h2>
+            
+            <!-- Блок со строгим юридическим текстом -->
+            <div id="fullAgreementText" style="display:none; max-height:180px; overflow-y:auto; margin-bottom:15px; padding:15px; background:rgba(0,0,0,0.4); border-radius:8px; font-size:14px; line-height:1.5; color:#e0e0e0; border:1px solid rgba(255, 255, 255, 0.05);">
+                <p style="color:#ff4d4d; font-weight:bold; margin-top:0;">ДАННОЕ ПО ПРЕДНАЗНАЧЕНО ИСКЛЮЧИТЕЛЬНО ДЛЯ ПРОФЕССИОНАЛОВ И ЛИЦ, ГЛУБОКО РАЗБИРАЮЩИХСЯ В СТРУКТУРЕ ОС WINDOWS.</p>
+                Программное обеспечение «Delta Unlocker» предоставляет расширенные возможности и полный контроль над управлением операционной системой Windows. В связи с этим ПО предоставляется на условиях "КАК ЕСТЬ" (AS IS). Разработчики отказываются от любых явных или подразумеваемых гарантий работоспособности. Ни при каких обстоятельствах разработчики не несут ответственности за любые прямые, косвенные или случайные убытки, включая потерю данных, критические сбои в работе ОС (BSoD) или конфликты с системой безопасности, возникшие в результате использования программы. Пользователь принимает на себя все риски.
+            </div>
+
+            <!-- Чекбокс согласия -->
+            <label style="display:flex; align-items:flex-start; gap:12px; cursor:pointer; margin:20px 0; font-size:14px; line-height:1.5; color: #e0e0e0;">
+                <input type="checkbox" id="agreeCheckbox" onchange="handleCheckboxChange()" style="margin-top:3px; transform:scale(1.2); cursor:pointer;">
+                <span>
+                    Я прочитал <a href="javascript:void(0);" onclick="showFullText()" style="color:#5d9cec; text-decoration:underline; font-weight:bold;">пользовательское соглашение</a> и согласен со всеми условиями. Я подтверждаю, что <span class="win" style="text-decoration:none;">являюсь опытным пользователем (PRO), понимаю риски управления ОС</span> и использую программу на свой собственный страх и риск.
+                </span>
+            </label>
+
+            <!-- Кнопки управления поп-апом -->
+            <div style="display:flex; justify-content:flex-end; gap:15px; margin-top:20px;">
+                <button onclick="closeAgreementModal()" class="button_D" style="background: #4a4a4a; cursor:pointer;">Отмена</button>
+                <button id="confirmDownloadBtn" disabled onclick="confirmAndGoToDownload()" class="button_D" style="opacity:0.3; cursor:not-allowed;">Download</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- СКРИПТЫ УПРАВЛЕНИЯ САЙТОМ -->
     <script>
         function checkRoute() {
             const home = document.getElementById('home');
             const download = document.getElementById('download');
             const thankyou = document.getElementById('thankyou');
 
-            // Скрываем абсолютно всё перед отрисовкой нужного роута
             home.style.display = 'none';
             download.style.display = 'none';
             thankyou.style.display = 'none';
@@ -80,14 +110,65 @@
             }
         }
 
-        function triggerDownload(url) {
-            // Переключаем хэш страницы на #thankyou
-            window.location.hash = '#thankyou';
+        // 1. Открытие модального окна при клике на самую первую кнопку Download
+        function openAgreementModal() {
+            document.getElementById('agreeCheckbox').checked = false; 
+            document.getElementById('fullAgreementText').style.display = 'none'; 
+            toggleSubmitButton(); 
+            document.getElementById('agreementModal').style.display = 'flex'; 
+        }
+
+        // 2. Закрытие окна
+        function closeAgreementModal() {
+            document.getElementById('agreementModal').style.display = 'none';
+        }
+
+        // 3. Показ/скрытие текста соглашения при клике на ссылку
+        function showFullText() {
+            const textBlock = document.getElementById('fullAgreementText');
+            textBlock.style.display = textBlock.style.display === 'none' ? 'block' : 'none';
+        }
+
+        // 4. Логика при клике на чекбокс (авто-раскрытие текста)
+        function handleCheckboxChange() {
+            const checkbox = document.getElementById('agreeCheckbox');
+            const textBlock = document.getElementById('fullAgreementText');
             
-            // Настраиваем кнопку ручного скачивания, если автомат вдруг заблокируется браузером
+            if (checkbox.checked && textBlock.style.display === 'none') {
+                textBlock.style.display = 'block';
+            }
+            
+            toggleSubmitButton();
+        }
+
+        // 5. Переключение активности кнопки Download в окне
+        function toggleSubmitButton() {
+            const checkbox = document.getElementById('agreeCheckbox');
+            const btn = document.getElementById('confirmDownloadBtn');
+            
+            if (checkbox.checked) {
+                btn.disabled = false;
+                btn.style.opacity = '1';
+                btn.style.cursor = 'pointer';
+            } else {
+                btn.disabled = true;
+                btn.style.opacity = '0.3';
+                btn.style.cursor = 'not-allowed';
+            }
+        }
+
+        // 6. Подтверждение и переход к выбору источников скачивания
+        function confirmAndGoToDownload() {
+            if (!document.getElementById('agreeCheckbox').checked) return;
+            closeAgreementModal();
+            window.location.hash = '#download'; 
+        }
+
+        // 7. Ваша оригинальная функция скачивания файлов
+        function triggerDownload(url) {
+            window.location.hash = '#thankyou';
             document.getElementById('manual-download-btn').href = url;
 
-            // Запускаем таймер на 3 секунды (3000 мс)
             setTimeout(() => {
                 const link = document.createElement('a');
                 link.href = url;
