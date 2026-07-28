@@ -18,24 +18,35 @@
         <p class="ptitle highlight">Мы создавали его с нуля, так что будем рады любой сумме вознаграждения :D</p>
     </main>
 
+    <!-- КАРТОЧКА ВЫБОРА ВЕРСИИ НА ГЛАВНОЙ -->
+    <section id="version-card" class="content-container version-card">
+        <h2 class="version-card-title">Выбор версии</h2>
+        <div class="version-selector-wrapper">
+            <!-- Выпадающий список заполняется автоматически из TXT -->
+            <select id="app-version" class="version-select" onchange="selectVersion(this.value)">
+                <option value="">Загрузка версий...</option>
+            </select>
+        </div>
+        <!-- Сюда будет подставляться описание из файла versions.txt -->
+        <p id="version-description" class="ptitle" style="margin-top: 15px; font-size: 15px; opacity: 0.8; text-align: left;"></p>
+    </section>
+
     <!-- СТРАНИЦА ВЫБОРА ЗАКРУЗКИ -->
     <section id="download" class="content-container" style="display: none;">
         <h1 class="titleD">Выберите сайт для установки</h1>
         <p class="ptitle"></p>
         <div class="m">
-            <!-- Заменили href на onclick для перехвата клика -->
-            <a href="javascript:void(0);" onclick="triggerDownload('https://github.com/art991122-stack/DU_I/releases/download/8.0.0/1_1.rar')">
+            <a id="link-github" href="javascript:void(0);" onclick="triggerDownload(this.dataset.url)">
                 <img src="./imges/github_PNG.png" />
             </a>
         </div>
         <div class="mm">
-            <a href="javascript:void(0);" onclick="triggerDownload('https://drive.usercontent.google.com/download?id=1HfZXKtosv8ReQ5RcfIkC78p9Wz-g6c6x&export=download&authuser=0')">
+            <a id="link-drive" href="javascript:void(0);" onclick="triggerDownload(this.dataset.url)">
                 <img src="./imges/google_drive.png" />
             </a>
         </div>
         <div class="m">
-            <!-- Поставили прямую ссылку скачивания для Dropbox -->
-            <a href="javascript:void(0);" onclick="triggerDownload('https://www.dropbox.com/scl/fi/1b60mi6mofvmijun6k5pv/1_1.rar?rlkey=wrp0mqd1bsf6hb4lqyyw2ze0d&st=i7y2ihmq&e=1&dl=1')">
+            <a id="link-dropbox" href="javascript:void(0);" onclick="triggerDownload(this.dataset.url)">
                 <img src="./imges/Dropbox_png.png" />
             </a>
         </div>
@@ -44,6 +55,7 @@
         </div>
     </section>
 
+    <!-- СТРАНИЦА ОЖИДАНИЯ СКАЧИВАНИЯ -->
     <section id="thankyou" class="content-container" style="display: none;">
         <h1 class="titleD">Спасибо за установку!</h1>
         <p class="ptitle">Загрузка Delta Unlocker начнется через пару секунд...</p>
@@ -61,13 +73,87 @@
     </section>
 
     <script>
+        // Глобальный объект для хранения распарсенных данных из TXT
+        let parsedVersions = {};
+
+        // Функция загрузки и парсинга файла versions.txt
+        async function loadVersionsTxt() {
+            try {
+                const response = await fetch('versions.txt'); // Делаем запрос к файлу
+                if (!response.ok) throw new Error('Файл версий не найден');
+                
+                const text = await response.text();
+                // Разбиваем текст на массив строк, убирая пустые
+                const lines = text.split(/\r?\n/).filter(line => line.trim() !== ''); 
+                
+                const selectElement = document.getElementById('app-version');
+                selectElement.innerHTML = ''; // Очищаем дефолтный текст загрузки
+                
+                parsedVersions = {};
+
+                lines.forEach((line, index) => {
+                    // Разделяем каждую строчку по знаку "|"
+                    const parts = line.split('|').map(p => p.trim());
+                    
+                    if (parts.length >= 5) {
+                        const versionNum = parts[0];   // v8.0.0
+                        const description = parts[1];  // Описание
+                        const githubUrl = parts[2];    // Ссылка GitHub
+                        const driveUrl = parts[3];     // Ссылка Drive
+                        const dropboxUrl = parts[4];   // Ссылка Dropbox
+
+                        // Сохраняем в глобальный объект
+                        parsedVersions[versionNum] = {
+                            description,
+                            github: githubUrl,
+                            drive: driveUrl,
+                            dropbox: dropboxUrl
+                        };
+
+                        // Создаем пункт в выпадающем списке <option>
+                        const option = document.createElement('option');
+                        option.value = versionNum;
+                        option.textContent = versionNum;
+                        if (index === 0) option.selected = true; // Первая строчка всегда выбрана по умолчанию
+                        selectElement.appendChild(option);
+                    }
+                });
+
+                // Инициализируем ссылки для первой доступной версии
+                const firstVersion = Object.keys(parsedVersions)[0];
+                if (firstVersion) {
+                    selectVersion(firstVersion);
+                }
+
+            } catch (error) {
+                console.error('Ошибка парсинга версий:', error);
+                document.getElementById('app-version').innerHTML = '<option>Ошибка загрузки</option>';
+            }
+        }
+
+        // Действие при выборе версии из списка
+        function selectVersion(version) {
+            const data = parsedVersions[version];
+            if (!data) return;
+
+            // 1. Обновляем текст описания в карточке на главной
+            document.getElementById('version-description').textContent = data.description;
+
+            // 2. Обновляем дата-атрибуты для ссылок скачивания
+            document.getElementById('link-github').dataset.url = data.github;
+            document.getElementById('link-drive').dataset.url = data.drive;
+            document.getElementById('link-dropbox').dataset.url = data.dropbox;
+        }
+
+        // Роутинг страниц (SPA на хэшах)
         function checkRoute() {
             const home = document.getElementById('home');
+            const versionCard = document.getElementById('version-card');
             const download = document.getElementById('download');
             const thankyou = document.getElementById('thankyou');
 
-            // Скрываем абсолютно всё перед отрисовкой нужного роута
             home.style.display = 'none';
+            versionCard.style.display = 'none';
             download.style.display = 'none';
             thankyou.style.display = 'none';
 
@@ -77,17 +163,14 @@
                 thankyou.style.display = 'block';
             } else {
                 home.style.display = 'block';
+                versionCard.style.display = 'block'; 
             }
         }
 
         function triggerDownload(url) {
-            // Переключаем хэш страницы на #thankyou
             window.location.hash = '#thankyou';
-            
-            // Настраиваем кнопку ручного скачивания, если автомат вдруг заблокируется браузером
             document.getElementById('manual-download-btn').href = url;
 
-            // Запускаем таймер на 3 секунды (3000 мс)
             setTimeout(() => {
                 const link = document.createElement('a');
                 link.href = url;
@@ -99,7 +182,11 @@
         }
 
         window.addEventListener('hashchange', checkRoute);
-        window.addEventListener('DOMContentLoaded', checkRoute);
+        
+        window.addEventListener('DOMContentLoaded', () => {
+            checkRoute();
+            loadVersionsTxt(); // Запускаем чтение файла сразу при загрузке страницы
+        });
     </script>
 </body>
 </html>
