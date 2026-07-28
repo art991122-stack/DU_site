@@ -110,3 +110,106 @@ img {
   left: 50%;         
   transform: translateX(-50%); 
 }
+
+.version-card {
+    margin-top: 30px;
+    text-align: left;
+    /* Легкое неоновое свечение для карточки */
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 15px rgba(255, 255, 255, 0.02);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Эффект легкого приподнимания карточки при наведении */
+.version-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.7), 0 0 20px rgba(93, 156, 236, 0.05);
+}
+
+/* Красивый заголовок блока */
+.version-card-title {
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-top: 0;
+    margin-bottom: 25px;
+    opacity: 0.5; /* Делаем заголовок аккуратным и не кричащим */
+}
+
+/* Обертка для селектора */
+.version-selector-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    max-width: 320px;
+}
+
+/* Стилизация самого выпадающего списка */
+.version-select {
+    font-family: 'Courier New', Courier, monospace;
+    background: linear-gradient(135deg, #1a1a1a, #262626); /* Более глубокий темный градиент */
+    color: #ffffff;
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    
+    /* Тонкая полупрозрачная рамка */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px; /* Мягкие скругленные углы */
+    
+    /* Сброс стандартной стрелочки браузера */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    
+    cursor: pointer;
+    outline: none;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 5px 15px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Кастомная аккуратная стрелочка справа */
+.version-selector-wrapper::after {
+    content: "▼";
+    font-size: 10px;
+    color: #e0e0e0;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+/* Красивые эффекты при наведении и фокусе на список */
+.version-select:hover {
+    border-color: rgba(93, 156, 236, 0.5); /* Цвет .win, но мягче */
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 0 15px rgba(93, 156, 236, 0.2);
+    color: #5d9cec;
+}
+
+.version-selector-wrapper:hover::after {
+    color: #5d9cec;
+}
+
+/* Стиль для открытого списка (выпадающих пунктов) */
+.version-select option {
+    background: #141414; /* Плотный темный фон под цвет вашего body */
+    color: #e0e0e0;
+    font-family: 'Courier New', Courier, monospace;
+    padding: 12px;
+}
+
+/* Стиль для блока с описанием изменений */
+#version-description {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.1); /* Тонкая разделительная линия */
+    color: #b0b0b0;
+    font-size: 15px;
+    line-height: 1.6;
+    letter-spacing: 0.5px;
+}
